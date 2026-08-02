@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap");
+
+/* ✅ Fix scrollbar ganda: sebelumnya TIDAK ADA reset sama sekali untuk
+   html/body/#root di file ini. Browser secara default kasih <body>
+   margin 8px di semua sisi (agent stylesheet bawaan) — sementara shell
+   aplikasi (App.jsx) pakai `h-screen` (100vh) untuk wrapper utamanya.
+   Akibatnya total tinggi dokumen jadi 100vh + 16px (margin atas+bawah
+   body), melebihi 1 viewport — <body>/<html> ikut scroll sedikit untuk
+   menampung 16px ekstra itu, di luar/ketumpuk dengan scrollbar <main>
+   (overflow-y-auto) yang sudah benar. Reset di bawah mengunci
+   html/body/#root pas 100% tinggi viewport tanpa margin, supaya
+   satu-satunya elemen yang scroll adalah <main> sesuai desain shell-nya. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /* ✅ Tegaskan skema warna halaman ini TERANG saja — melengkapi meta
+     tag <meta name="color-scheme" content="light"> di index.html.
+     Tanpa ini, elemen bawaan browser (scrollbar, checkbox/date-picker
+     native, dll) bisa ikut "dibalik" warnanya oleh Chrome saat HP
+     penggunanya diset dark mode, walau elemen buatan kita (Tailwind)
+     sudah tetap terang. */
+  color-scheme: light;
+}
+
+#root {
+  height: 100%;
+}

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/assets/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- ✅ Cegah Chrome Android (Force Dark) membalik warna halaman ini
+         saat HP penggunanya diset dark mode. Tanpa ini, background
+         putih dibalik jadi gelap, tapi gambar/SVG (mis. logo Smart-ROSE)
+         tidak ikut dibalik — hasilnya logo terlihat "nempel" kotak
+         putih aneh di atas background gelap. -->
+    <meta name="color-scheme" content="light" />
+    <title>smart-rose</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
