@@ -150,13 +150,6 @@ const BULAN_PENDEK = [
   "DES",
 ];
 
-function formatBulanYYYYMM(bulanStr) {
-  // bulanStr contoh: "2025-07"
-  const parts = String(bulanStr || "").split("-");
-  const monthIndex = parseInt(parts[1], 10) - 1;
-  return BULAN_PENDEK[monthIndex] || bulanStr;
-}
-
 // ------------------------------------------------------------
 // GET /admin/dashboard/summary
 // ------------------------------------------------------------
@@ -208,8 +201,32 @@ async function fetchTrend() {
   const res = await apiClient.get("/admin/dashboard/trend");
   const data = unwrap(res) || [];
   return data.map((item) => ({
-    bulan: formatBulanYYYYMM(pickField(item, ["bulan", "month"], "")),
-    insiden: pickField(item, ["count", "jumlah", "total"], 0),
+    bulanKey: String(pickField(item, ["bulan", "month"], "")),
+    insiden: Number(pickField(item, ["count", "jumlah", "total"], 0)) || 0,
+  }));
+}
+
+// Susun tren untuk tahun kalender berjalan. Endpoint mengirim 12 bulan
+// bergulir, sehingga beberapa bulan di awal tahun bisa tidak ikut terkirim.
+// Bentuk semua bulan di sini agar sumbu grafik selalu JAN sampai DES.
+function buildCurrentYearTrend(trend, year = new Date().getFullYear()) {
+  const countsByMonth = new Map();
+
+  for (const item of trend) {
+    const match = String(item.bulanKey).match(/^(\d{4})-(\d{1,2})$/);
+    if (!match || Number(match[1]) !== year) continue;
+
+    const monthIndex = Number(match[2]) - 1;
+    if (monthIndex < 0 || monthIndex > 11) continue;
+    countsByMonth.set(
+      monthIndex,
+      (countsByMonth.get(monthIndex) || 0) + item.insiden,
+    );
+  }
+
+  return BULAN_PENDEK.map((bulan, monthIndex) => ({
+    bulan,
+    insiden: countsByMonth.get(monthIndex) || 0,
   }));
 }
 
@@ -433,7 +450,7 @@ export async function getDashboardData(periode = "Bulan ini") {
       byJenis.length ? byJenis : summary.byJenisInsiden,
     ),
     tingkatKeparahan: buildTingkatKeparahan(byGrading),
-    trenBulanan: trend,
+    trenBulanan: buildCurrentYearTrend(trend),
   };
 }
 
