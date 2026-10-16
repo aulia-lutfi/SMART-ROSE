@@ -55,10 +55,10 @@ function keTanggalSaja(nilaiDatetimeLocal) {
   return nilaiDatetimeLocal.split("T")[0];
 }
 
-// Aturan lampiran sesuai requirement backend (dokumen V2): max 5MB,
-// jpg/png/pdf saja.
-export const MAX_LAMPIRAN_SIZE = 5 * 1024 * 1024; // 5MB
+// Lampiran menerima JPG/PNG/PDF dengan batas total 25MB. Batas per file
+// sama dengan batas total agar satu file bisa menggunakan seluruh kapasitas.
 export const MAX_TOTAL_LAMPIRAN_SIZE = 25 * 1024 * 1024; // 25MB
+export const MAX_LAMPIRAN_SIZE = MAX_TOTAL_LAMPIRAN_SIZE;
 export const ALLOWED_LAMPIRAN_TYPES = [
   "image/jpeg",
   "image/png",
@@ -75,7 +75,7 @@ export function validasiLampiran(file) {
     return `"${file.name}" ditolak — hanya boleh JPG, PNG, atau PDF.`;
   }
   if (file.size > MAX_LAMPIRAN_SIZE) {
-    return `"${file.name}" ditolak — ukuran maksimal 5MB.`;
+    return `"${file.name}" ditolak — ukuran maksimal 25 MB.`;
   }
   return null;
 }
