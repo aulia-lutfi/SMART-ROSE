@@ -17,6 +17,7 @@ import FormStep4 from "../../components/laporan/FormStep4";
 import FormChatbot from "../../components/laporan/FormChatbot";
 import {
   kirimLaporan,
+  MAX_TOTAL_LAMPIRAN_SIZE,
   validasiLampiran,
 } from "../../services/user/buatlaporanService";
 
@@ -153,6 +154,7 @@ export default function BuatLaporanPage() {
 
   const handleRemoveLampiran = (idx) => {
     setLampiran((prev) => prev.filter((_, i) => i !== idx));
+    setLampiranError(null);
   };
 
   const validateStep1 = () => {
@@ -249,6 +251,19 @@ export default function BuatLaporanPage() {
           "error",
         );
     } else if (step === 3) {
+      const totalUkuranLampiran = lampiran.reduce(
+        (total, file) => total + file.size,
+        0,
+      );
+      if (totalUkuranLampiran > MAX_TOTAL_LAMPIRAN_SIZE) {
+        const pesanError =
+          "Total ukuran lampiran melebihi 25 MB. Hapus beberapa file atau pilih file yang lebih kecil sebelum melanjutkan.";
+        setLampiranError(pesanError);
+        showNotification(pesanError, "error");
+        return;
+      }
+      setLampiranError(null);
+
       if (validateStep3()) {
         setStep(4);
         window.scrollTo({ top: 0, behavior: "smooth" });

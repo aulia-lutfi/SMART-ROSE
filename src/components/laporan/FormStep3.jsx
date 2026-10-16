@@ -147,8 +147,8 @@ export default function FormStep3({
             Dokumentasi Pendukung
           </h3>
           <p className="text-xs text-slate-400 mb-3">
-            Upload foto, gambar, atau dokumen terkait insiden (JPG, PNG, PDF,
-            DOCX, XLSX — Maks. 5MB per file)
+            Lampirkan bukti insiden dalam format JPG, PNG, atau PDF. Maksimal 5
+            MB per file dan 25 MB untuk seluruh lampiran.
           </p>
 
           <div className="rounded-xl border-2 border-dashed border-blue-300 bg-slate-50/60 px-6 py-8 text-center transition hover:bg-blue-50/40">
@@ -159,12 +159,12 @@ export default function FormStep3({
                 Klik atau seret file ke sini
               </p>
               <p className="text-[11px] text-slate-400 mt-1">
-                Format: JPG, PNG, PDF, DOCX, XLSX (Maks. 5MB per file)
+                Format: JPG, PNG, PDF · Maks. 5 MB per file · Maks. 25 MB total
               </p>
               <input
                 type="file"
                 multiple
-                accept="image/*,.pdf,.docx,.xlsx,.doc,.xls"
+                accept="image/jpeg,image/png,application/pdf,.jpg,.jpeg,.png,.pdf"
                 onChange={(e) => {
                   const files = Array.from(e.target.files);
                   if (handleAddLampiran) {

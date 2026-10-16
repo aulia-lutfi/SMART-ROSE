@@ -58,6 +58,7 @@ function keTanggalSaja(nilaiDatetimeLocal) {
 // Aturan lampiran sesuai requirement backend (dokumen V2): max 5MB,
 // jpg/png/pdf saja.
 export const MAX_LAMPIRAN_SIZE = 5 * 1024 * 1024; // 5MB
+export const MAX_TOTAL_LAMPIRAN_SIZE = 25 * 1024 * 1024; // 25MB
 export const ALLOWED_LAMPIRAN_TYPES = [
   "image/jpeg",
   "image/png",
