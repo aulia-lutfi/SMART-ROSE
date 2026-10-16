@@ -197,7 +197,7 @@ function TrenInsidenChart({ data }) {
             </linearGradient>
           </defs>
           <CartesianGrid
-            strokeDasharray="3 3"
+            strokeDasharray="0"
             stroke="#e2e8f0"
             vertical={false}
           />
@@ -206,7 +206,12 @@ function TrenInsidenChart({ data }) {
             stroke="#94a3b8"
             style={{ fontSize: "12px" }}
           />
-          <YAxis stroke="#94a3b8" style={{ fontSize: "12px" }} width={35} />
+          <YAxis
+            stroke="#94a3b8"
+            style={{ fontSize: "12px" }}
+            width={35}
+            tickCount={4}
+          />
           <Tooltip
             contentStyle={{
               backgroundColor: "#f8fafc",
@@ -215,7 +220,7 @@ function TrenInsidenChart({ data }) {
             }}
           />
           <Area
-            type="linear"
+            type="monotone"
             dataKey="insiden"
             stroke="#3b82f6"
             strokeWidth={2}
